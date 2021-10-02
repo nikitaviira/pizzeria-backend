@@ -3,3 +3,5 @@ steps:
     args: ['build', '-t', 'eu.gcr.io/strange-victory-326811/pizzeria-backend:$SHORT_SHA', '.']
   - name: 'gcr.io/cloud-builders/docker'
     args: ['push', 'eu.gcr.io/strange-victory-326811/pizzeria-backend:$SHORT_SHA']
+  - name: 'gcr.io/cloud-builders/gcloud'
+    args: ['beta', 'run', 'deploy', 'pizzeria-backend', '--region=europe-north1', '--platform=managed', '--image=eu.gcr.io/strange-victory-326811/pizzeria-backend:$SHORT_SHA']
