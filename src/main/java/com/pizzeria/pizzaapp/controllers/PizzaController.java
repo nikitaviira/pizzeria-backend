@@ -22,8 +22,8 @@ public class PizzaController extends BaseController {
   }
 
   @GetMapping("/pizza/creation-parameters")
-  public String pizzaParameters() {
-    return "hui";
+  public PizzaParametersDto pizzaParameters() {
+    return pizzaService.pizzaCreationParameters();
   }
 
   @PostMapping("/pizza/create")
