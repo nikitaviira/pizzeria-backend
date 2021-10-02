@@ -1,0 +1,13 @@
+version: '3.1'
+
+services:
+  pizzeria-local-db:
+    image: postgres
+    ports:
+      - 5432:5432
+    tmpfs:
+      - /var/lib/postgresql/data:rw
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: SuperSecret
+      POSTGRES_DB: pizzeria

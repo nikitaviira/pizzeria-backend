@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog
+  xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd"
+>
+  <changeSet id="202109162330" author="Polybius">
+    <createTable tableName="crust">
+      <column name="id" type="bigserial" autoIncrement="true">
+        <constraints nullable="false" primaryKey="true"/>
+      </column>
+      <column name="name" type="varchar(100)">
+        <constraints nullable="false"/>
+      </column>
+      <column name="name_ru" type="varchar(200)">
+        <constraints nullable="false"/>
+      </column>
+      <column name="price" type="numeric">
+        <constraints nullable="false"/>
+      </column>
+    </createTable>
+
+    <createTable tableName="cut">
+      <column name="id" type="bigserial" autoIncrement="true">
+        <constraints nullable="false" primaryKey="true"/>
+      </column>
+      <column name="name" type="varchar(100)">
+        <constraints nullable="false"/>
+      </column>
+      <column name="name_ru" type="varchar(200)">
+        <constraints nullable="false"/>
+      </column>
+    </createTable>
+
+    <createTable tableName="size">
+      <column name="id" type="bigserial" autoIncrement="true">
+        <constraints nullable="false" primaryKey="true"/>
+      </column>
+      <column name="name" type="varchar(100)">
+        <constraints nullable="false"/>
+      </column>
+      <column name="name_ru" type="varchar(200)">
+        <constraints nullable="false"/>
+      </column>
+      <column name="price" type="numeric">
+        <constraints nullable="false"/>
+      </column>
+      <column name="diameter" type="smallint">
+        <constraints nullable="false"/>
+      </column>
+    </createTable>
+
+    <createTable tableName="pizza">
+      <column name="id" type="bigserial" autoIncrement="true">
+        <constraints nullable="false" primaryKey="true"/>
+      </column>
+      <column name="crust_id" type="bigint">
+        <constraints nullable="false"
+                     foreignKeyName="fk_pizza_crust" referencedTableName="crust"
+                     referencedColumnNames="id"/>
+      </column>
+      <column name="cut_id" type="bigint">
+        <constraints nullable="false"
+                     foreignKeyName="fk_pizza_cut" referencedTableName="cut"
+                     referencedColumnNames="id"/>
+      </column>
+      <column name="size_id" type="bigint">
+        <constraints nullable="false"
+                     foreignKeyName="fk_pizza_size" referencedTableName="size"
+                     referencedColumnNames="id"/>
+      </column>
+    </createTable>
+
+    <createTable tableName="ingredient_type">
+      <column name="id" type="bigserial" autoIncrement="true">
+        <constraints nullable="false" primaryKey="true"/>
+      </column>
+      <column name="name" type="varchar(100)">
+        <constraints nullable="false"/>
+      </column>
+      <column name="name_ru" type="varchar(200)">
+        <constraints nullable="false"/>
+      </column>
+      <column name="sort_order" type="smallint">
+        <constraints nullable="false"/>
+      </column>
+    </createTable>
+
+    <createTable tableName="ingredient">
+      <column name="id" type="bigserial" autoIncrement="true">
+        <constraints nullable="false" primaryKey="true"/>
+      </column>
+      <column name="image_url" type="text">
+        <constraints nullable="false"/>
+      </column>
+      <column name="name" type="varchar(100)">
+        <constraints nullable="false"/>
+      </column>
+      <column name="name_ru" type="varchar(200)">
+        <constraints nullable="false"/>
+      </column>
+      <column name="price" type="numeric">
+        <constraints nullable="false"/>
+      </column>
+      <column name="ingredient_type_id" type="bigint">
+        <constraints nullable="false"
+                     foreignKeyName="fk_ingredient_type" referencedTableName="ingredient_type"
+                     referencedColumnNames="id"/>
+      </column>
+    </createTable>
+
+    <createTable tableName="pizza_item">
+      <column name="id" type="bigserial" autoIncrement="true">
+        <constraints nullable="false" primaryKey="true"/>
+      </column>
+      <column name="amount" type="smallint">
+        <constraints nullable="false"/>
+      </column>
+      <column name="pizza_id" type="bigint">
+        <constraints nullable="false"
+                     foreignKeyName="fk_pizza_item_pizza" referencedTableName="pizza"
+                     referencedColumnNames="id"/>
+      </column>
+      <column name="ingredient_id" type="bigint">
+        <constraints nullable="false"
+                     foreignKeyName="fk_pizza_item_ingredient" referencedTableName="ingredient"
+                     referencedColumnNames="id"/>
+      </column>
+    </createTable>
+  </changeSet>
+
+  <changeSet id="202109181349" author="Polybius">
+    <sqlFile relativeToChangelogFile="true" path="scripts/populate-db.sql"/>
+  </changeSet>
+
+  <changeSet id="202109211248" author="Polybius">
+    <createTable tableName="users">
+      <column name="id" type="bigserial" autoIncrement="true">
+        <constraints nullable="false" primaryKey="true"/>
+      </column>
+      <column name="email" type="varchar(300)">
+        <constraints nullable="false"/>
+      </column>
+      <column name="first_name" type="varchar(100)"/>
+      <column name="last_name" type="varchar(100)" />
+      <column name="password_hash" type="varchar(500)">
+        <constraints nullable="false"/>
+      </column>
+      <column name="created_at" type="timestamp">
+        <constraints nullable="false"/>
+      </column>
+      <column name="roles" type="varchar[]">
+        <constraints nullable="false"/>
+      </column>
+    </createTable>
+  </changeSet>
+</databaseChangeLog>
